@@ -7,7 +7,6 @@ const MiniMusicPlayer = ({ onAudioRef }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   
   const audioRef = useRef(null);

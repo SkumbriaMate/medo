@@ -330,10 +330,6 @@ const Page1 = ({ onNext }) => {
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const audioRef = React.useRef(null);
-
-  // Get the audio ref from MiniMusicPlayer somehow
-  // We'll create a callback to set it
   const [playerAudioRef, setPlayerAudioRef] = useState(null);
 
   const handleNext = () => {
