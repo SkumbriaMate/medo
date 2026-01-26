@@ -89,7 +89,6 @@ const Page2 = ({ onNext }) => {
 
     // Start typing animation immediately when page loads
     const t = window.setTimeout(() => {
-      setIsTyping(true);
       startTyping();
     }, 100);
     timersRef.current.push(t);
@@ -111,7 +110,6 @@ const Page2 = ({ onNext }) => {
       } else {
         if (typingIntervalRef.current) window.clearInterval(typingIntervalRef.current);
         typingIntervalRef.current = null;
-        setIsTyping(false);
         setShowCursor(false);
 
         // Wait 3–5 seconds after typing so she can read, then send flowers.
