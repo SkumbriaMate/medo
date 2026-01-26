@@ -71,7 +71,6 @@ const Flower = ({
 
 const Page2 = ({ onNext }) => {
   const [displayedText, setDisplayedText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const [showFlowers, setShowFlowers] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
