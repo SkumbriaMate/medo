@@ -114,7 +114,7 @@ const Page2 = ({ onNext }) => {
 
         // Wait 3–5 seconds after typing so she can read, then send flowers.
         if (readingDelayMsRef.current == null) {
-          readingDelayMsRef.current = Math.round(3000 + Math.random() * 2000);
+          readingDelayMsRef.current = Math.round(2000 + Math.random() * 1000);
         }
 
         const t1 = window.setTimeout(() => {
@@ -123,7 +123,7 @@ const Page2 = ({ onNext }) => {
           // Show next button after flowers are clearly visible.
           const t2 = window.setTimeout(() => {
             setShowNextButton(true);
-          }, 4500);
+          }, 2000);
           timersRef.current.push(t2);
         }, readingDelayMsRef.current);
         timersRef.current.push(t1);
@@ -289,7 +289,7 @@ const Page2 = ({ onNext }) => {
                   fontSize: '1.1rem'
                 }}
               >
-                Next →
+                 →
               </motion.button>
             )}
           </AnimatePresence>
