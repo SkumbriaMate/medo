@@ -13,9 +13,9 @@ const Page3 = ({ onNext }) => {
 
   useEffect(() => {
     const flowerImages = [
-      '/flowers-images/cherry-blossom.png',
-      '/flowers-images/flower.png',
-      '/flowers-images/sakura.png',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/cherry-blossom.png',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/flower.png',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/sakura.png',
     ]
 
     const newFlowers = Array.from({ length: 24 }, (_, i) => ({
@@ -32,16 +32,15 @@ const Page3 = ({ onNext }) => {
 
   const images = useMemo(
     () => [
-      '/images/178ad021-9848-4178-8bd6-78b4b4a2ad2d.jpg',
-      '/images/1b089b47-1dfc-4fd8-9a2e-c8f51c110e2c.jpg',
-      '/images/369bd509-b0ab-4a39-a53d-3484666d5aad.jpg',
-      '/images/62def098-7c1a-427a-a88a-27c6e9af7cba.jpg',
-      '/images/757bf1b6-d286-4fce-8212-471f033f79a8.jpg',
-      '/images/9be7576f-1aa7-4c70-84d1-71667d2005b4.jpg',
-      '/images/a34a3f96-a5cb-4659-a868-cc92c2ae5f9a.jpg',
-      '/images/cf3df111-7637-4e8e-9561-0276cda7355f.jpg',
-      '/images/d071059b-1f9b-441c-adbd-3614b27816f8.jpg',
-      '/images/ffed03c9-945e-4ae0-a5d7-2789c05eb33e.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/178ad021-9848-4178-8bd6-78b4b4a2ad2d.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/1b089b47-1dfc-4fd8-9a2e-c8f51c110e2c.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/369bd509-b0ab-4a39-a53d-3484666d5aad.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/757bf1b6-d286-4fce-8212-471f033f79a8.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/9be7576f-1aa7-4c70-84d1-71667d2005b4.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/a34a3f96-a5cb-4659-a868-cc92c2ae5f9a.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/cf3df111-7637-4e8e-9561-0276cda7355f.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/d071059b-1f9b-441c-adbd-3614b27816f8.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/ffed03c9-945e-4ae0-a5d7-2789c05eb33e.jpg',
     ],
     []
   )
@@ -189,7 +188,7 @@ const Page3 = ({ onNext }) => {
               fontSize: '1.1rem'
             }}
           >
-            Next →
+             →
           </motion.button>
         </motion.div>
 

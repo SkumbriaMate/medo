@@ -26,16 +26,16 @@ const MiniMusicPlayer = ({ onAudioRef }) => {
 
   // Playlist
   const playlist = [
-    { name: "No Other Heart", artist: "Mac DeMarco", src: "/music/Mac DeMarco __ No Other Heart (Official Audio) - CapturedTracks.mp3", cover: "/music-images/no other heart.jpg" },
-    { name: "I Like Her", artist: "Mac DeMarco", src: "/music/20191009 I Like Her - Mac DeMarco.mp3", cover: "/music-images/i like her.jpg" },
-    { name: "For the First Time", artist: "Mac DeMarco", src: "/music/For the First Time - Mac DeMarco.mp3", cover: "/music-images/for the first time.jpg" },
-    { name: "Heart To Heart", artist: "Mac DeMarco", src: "/music/Heart To Heart - Mac DeMarco.mp3", cover: "/music-images/heart to heart.jpg" },
-    { name: "My Kind Of Woman", artist: "Mac DeMarco", src: "/music/Mac DeMarco __ My Kind Of Woman - CapturedTracks.mp3", cover: "/music-images/my kind of women.jpg" },
-    { name: "Here Comes The Sun", artist: "The Beatles", src: "/music/Here Comes The Sun (2019 Mix) - The Beatles.mp3", cover: "/music-images/here comes the sun.jpg" },
-    { name: "Yesterday", artist: "The Beatles", src: "/music/Yesterday (Remastered 2015) - The Beatles .mp3", cover: "/music-images/yesterday.jpg" },
-    { name: "No Surprises", artist: "Radiohead", src: "/music/Radiohead - No Surprises - Radiohead.mp3", cover: "/music-images/no sup[rises.jpg" },
-    { name: "Please, Please, Please Let Me Get What I Want", artist: "The Smiths", src: "/music/The Smiths - Please, Please, Please Let Me Get What I Want - The Smiths.mp3", cover: "/music-images/please please let me.jpg" },
-    { name: "There Is A Light That Never Goes Out", artist: "The Smiths", src: "/music/The Smiths - There Is A Light That Never Goes Out (Official Audio) - The Smiths.mp3", cover: "/music-images/there is a lite that never goes.jpg" },
+    { name: "No Other Heart", artist: "Mac DeMarco", src: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/Mac%20DeMarco%20__%20No%20Other%20Heart%20(Official%20Audio)%20-%20CapturedTracks.mp3", cover: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/no%20other%20heart.jpg" },
+    { name: "I Like Her", artist: "Mac DeMarco", src: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/20191009%20I%20Like%20Her%20-%20Mac%20DeMarco.mp3", cover: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/I%20like%20her.jpg" },
+    { name: "For the First Time", artist: "Mac DeMarco", src: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/For%20the%20First%20Time%20-%20Mac%20DeMarco.mp3", cover: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/for%20the%20first%20time.jpg" },
+    { name: "Heart To Heart", artist: "Mac DeMarco", src: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/Heart%20To%20Heart%20-%20Mac%20DeMarco.mp3", cover: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/heart%20to%20heart.jpg" },
+    { name: "My Kind Of Woman", artist: "Mac DeMarco", src: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/Mac%20DeMarco%20__%20My%20Kind%20Of%20Woman%20-%20CapturedTracks.mp3", cover: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/my%20kind%20of%20women.jpg" },
+    { name: "Here Comes The Sun", artist: "The Beatles", src: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/Here%20Comes%20The%20Sun%20(2019%20Mix)%20-%20The%20Beatles.mp3", cover: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/here%20comes%20the%20sun.jpg" },
+    { name: "Yesterday", artist: "The Beatles", src: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/Yesterday%20(Remastered%202015)%20-%20The%20Beatles%20.mp3", cover: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/yesterday.jpg" },
+    { name: "No Surprises", artist: "Radiohead", src: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/Radiohead%20-%20No%20Surprises%20-%20Radiohead.mp3", cover: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/no%20suprises.jpg" },
+    { name: "Please, Please, Please Let Me Get What I Want", artist: "The Smiths", src: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/The%20Smiths%20-%20Please,%20Please,%20Please%20Let%20Me%20Get%20What%20I%20Want%20-%20The%20Smiths.mp3", cover: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/please%20please%20let%20me.jpg" },
+    { name: "There Is A Light That Never Goes Out", artist: "The Smiths", src: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/The%20Smiths%20-%20There%20Is%20A%20Light%20That%20Never%20Goes%20Out%20(Official%20Audio)%20-%20The%20Smiths.mp3", cover: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/there%20is%20a%20lite%20that%20never%20goes.jpg" },
   ];
 
   const currentTrack = playlist[currentTrackIndex];
