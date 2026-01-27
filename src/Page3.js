@@ -156,8 +156,6 @@ const Page3 = ({ onNext }) => {
               <AnimatePresence mode="popLayout">
                 {getVisibleImages().map(({ src, position, index }) => {
                   const isCenter = position === 0
-                  const isLeft = position === -1
-                  const isRight = position === 1
 
                   return (
                     <motion.div
