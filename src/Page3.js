@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 const Page3 = ({ onNext }) => {
   const [showPhotos, setShowPhotos] = useState(false)
   const [flowers, setFlowers] = useState([])
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [dragStart, setDragStart] = useState(0)
   const [fullscreenImage, setFullscreenImage] = useState(null)
 
   useEffect(() => {
@@ -45,18 +47,245 @@ const Page3 = ({ onNext }) => {
     []
   )
 
-  const moments = useMemo(
-    () => ({
-      2: 'მიყვარხარ!',
-      5: 'მიყვარხარ!',
-      8: 'და მიყვრხარ!',
-    }),
-    []
-  )
+  const handleDragStart = (e) => {
+    setDragStart(e.clientX || (e.touches && e.touches[0].clientX))
+  }
+
+  const handleDragEnd = (e) => {
+    const dragEnd = e.clientX || (e.changedTouches && e.changedTouches[0].clientX)
+    const diff = dragStart - dragEnd
+    
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        // Swiped left - go next
+        setCurrentIndex((prev) => (prev + 1) % images.length)
+      } else {
+        // Swiped right - go prev
+        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
+      }
+    }
+  }
+
+  const getImagePosition = (index) => {
+    const position = (index - currentIndex + images.length) % images.length
+    return position
+  }
+
+  const getRotation = (position) => {
+    if (position === 0) return 0
+    if (position === 1) return 120
+    if (position === 2) return 240
+    return 0
+  }
+
+  const getZIndex = (position) => {
+    if (position === 0) return 30
+    if (position === 1) return 20
+    if (position === 2) return 10
+    return 0
+  }
+
+  const getOpacity = (position) => {
+    if (position === 0) return 1
+    if (position === 1) return 0.7
+    if (position === 2) return 0.5
+    return 0
+  }
 
   return (
-    <div className="relative h-screen overflow-y-auto overscroll-contain bg-gradient-to-br from-pink-200 via-rose-100 to-pink-200">
+    <div className="relative min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-pink-50 overflow-hidden flex items-center justify-center">
+      {/* Background flowers */}
+      <div className="absolute inset-0">
+        {flowers.map((f) => (
+          <motion.img
+            key={f.id}
+            src={f.image}
+            alt="flower"
+            className="absolute pointer-events-none"
+            style={{
+              width: f.size,
+              height: f.size,
+              left: `${f.left}%`,
+              top: `${f.top}%`,
+              opacity: f.opacity,
+              rotate: f.rotation,
+            }}
+            animate={{
+              y: [0, -20, 0],
+              rotate: [f.rotation, f.rotation + 10, f.rotation],
+            }}
+            transition={{
+              duration: 4 + Math.random() * 3,
+              repeat: Infinity,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Main carousel container */}
+      <div className="relative z-20 w-full max-w-full px-4 py-8">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={showPhotos ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center justify-center"
+        >
+          {/* Message text at top */}
+          <motion.div
+            className="text-center mb-8 z-10"
+            initial={{ opacity: 0, y: -20 }}
+            animate={showPhotos ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 mb-2 font-caveat">
+              უყურე უკვე სად მოვედიkönig!!!!
+            </h2>
+            <p className="text-lg sm:text-xl md:text-2xl text-rose-600 font-caveat">
+              ყვველაზე მეტად თaaaaan!!!!!!!!!!!
+            </p>
+          </motion.div>
+
+          {/* Carousel */}
+          <div
+            className="relative w-full flex items-center justify-center h-64 sm:h-72 md:h-96 lg:h-[500px] mb-8"
+            onMouseDown={handleDragStart}
+            onMouseUp={handleDragEnd}
+            onTouchStart={handleDragStart}
+            onTouchEnd={handleDragEnd}
+          >
+            {/* Container for carousel images */}
+            <div className="relative w-full h-full flex items-center justify-center">
+              {images.map((img, idx) => {
+                const position = getImagePosition(idx)
+                const zIndex = getZIndex(position)
+                const opacity = getOpacity(position)
+
+                if (position > 2) return null
+
+                const xOffset =
+                  position === 0 ? 0 : position === 1 ? 140 : -140
+                const yOffset =
+                  position === 0 ? 0 : position === 1 ? 80 : 80
+
+                return (
+                  <motion.div
+                    key={idx}
+                    className="absolute cursor-grab active:cursor-grabbing"
+                    animate={{
+                      x: xOffset,
+                      y: yOffset,
+                    }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 300,
+                      damping: 30,
+                    }}
+                    style={{
+                      zIndex: zIndex,
+                      opacity: opacity,
+                    }}
+                  >
+                    <motion.img
+                      src={img}
+                      alt={`memory-${idx}`}
+                      className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-2xl object-cover shadow-2xl border-4 border-white cursor-pointer hover:shadow-3xl transition-shadow"
+                      onClick={() => setFullscreenImage(img)}
+                      animate={{
+                        scale: position === 0 ? 1 : 0.85,
+                      }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Dots indicator */}
+          <motion.div
+            className="flex gap-2 justify-center mb-8 z-10"
+            initial={{ opacity: 0 }}
+            animate={showPhotos ? { opacity: 1 } : {}}
+            transition={{ delay: 0.4 }}
+          >
+            {images.map((_, idx) => (
+              <motion.div
+                key={idx}
+                className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all cursor-pointer ${
+                  idx === currentIndex
+                    ? 'bg-rose-500 w-6 sm:w-8'
+                    : 'bg-pink-300 hover:bg-pink-400'
+                }`}
+                onClick={() => {
+                  const diff = idx - currentIndex
+                  setCurrentIndex(
+                    (prev) => (prev + diff + images.length) % images.length
+                  )
+                }}
+                whileHover={{ scale: 1.2 }}
+              />
+            ))}
+          </motion.div>
+
+          {/* Swipe hint */}
+          <motion.p
+            className="text-sm text-gray-600 mb-6 z-10"
+            initial={{ opacity: 0 }}
+            animate={showPhotos ? { opacity: 1 } : {}}
+            transition={{ delay: 0.5 }}
+          >
+            💕 Swipe to see more memories 💕
+          </motion.p>
+
+          {/* Navigation button */}
+          <motion.button
+            onClick={onNext}
+            className="px-8 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all z-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={showPhotos ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.6 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Next 💕
+          </motion.button>
+        </motion.div>
+      </div>
+
+      {/* Fullscreen image viewer */}
       {fullscreenImage && (
+        <motion.div
+          className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4"
+          onClick={() => setFullscreenImage(null)}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div
+            className="relative max-w-4xl w-full h-[80vh] rounded-xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+          >
+            <img
+              src={fullscreenImage}
+              alt="fullscreen"
+              className="w-full h-full object-contain"
+            />
+            <button
+              onClick={() => setFullscreenImage(null)}
+              className="absolute top-4 right-4 bg-white text-black rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold hover:bg-gray-200 transition-colors"
+            >
+              ✕
+            </button>
+          </motion.div>
+        </motion.div>
+      )}
+    </div>
+  )
+}
+
+export default Page3
         <div
           className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
           onClick={() => setFullscreenImage(null)}
