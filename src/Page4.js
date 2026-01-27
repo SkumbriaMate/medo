@@ -54,7 +54,7 @@ const Page4 = () => {
   }
 
   const onNo = async () => {
-    if (accepted) return
+    if (accepted || noClicks > 3) return
     await playLaugh()
     setNoClicks((v) => v + 1)
   }
@@ -147,17 +147,20 @@ const Page4 = () => {
 
                 <motion.button
                   onClick={onNo}
+                  disabled={noClicks > 3}
                   animate={{ 
                     scale: noScale, 
                     rotate: noClicks ? [0, 2, -2, 0] : 0,
-                    opacity: noClicks > 5 ? 0.3 : 1
+                    opacity: noClicks > 3 ? 0 : 1
                   }}
                   transition={{
                     type: "spring",
                     stiffness: 260,
                     damping: 18,
                   }}
-                  className="px-7 py-4 rounded-2xl text-lg font-bold text-white bg-rose-500/90 shadow-xl active:scale-95"
+                  className={`px-7 py-4 rounded-2xl text-lg font-bold text-white bg-rose-500/90 shadow-xl active:scale-95 ${
+                    noClicks > 3 ? 'cursor-not-allowed pointer-events-none' : ''
+                  }`}
                 >
                   No
                 </motion.button>
@@ -171,13 +174,13 @@ const Page4 = () => {
                 className="text-center"
               >
                 <div className="text-3xl font-extrabold text-white drop-shadow-lg">
-                  I knew it! 💖✨
+                  არიქნები და შენი აჯობებსსსსს! 💖✨
                 </div>
                 <div className="mt-2 text-xl font-semibold text-white/95 drop-shadow">
-                  You're my everything, my love.
+                  მიყვარხარ ყველაზე
                 </div>
                 <div className="mt-1 text-lg text-white/90 drop-shadow">
-                  Happy Valentine's Day, my beautiful girlfriend! 🌹
+                  ჩემს მედოს ცხოვრების ბოლომდე!!!!!!!!!!
                 </div>
               </motion.div>
             )}
