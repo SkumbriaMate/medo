@@ -270,29 +270,27 @@ const Page2 = ({ onNext }) => {
                 </motion.span>
               )}
             </p>
+            
+            {/* Next button in same div as text */}
+            <AnimatePresence initial={false}>
+              {showNextButton && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  onClick={onNext}
+                  className="pointer-events-auto relative z-40 mt-4 px-6 py-2 bg-white text-pink-500 font-bold rounded-full shadow-lg hover:shadow-xl hover:bg-gray-50 transform hover:scale-105 transition-all duration-300"
+                  style={{
+                    fontFamily: "'Kalam', 'Permanent Marker', 'Caveat', cursive",
+                    fontSize: '1rem'
+                  }}
+                >
+                  Next →
+                </motion.button>
+              )}
+            </AnimatePresence>
           </motion.div>
-        </div>
-
-        {/* Next button below text div (reserved space to avoid layout glitch) */}
-        <div className="mt-8 z-30" style={{ height: 52 }}>
-          <AnimatePresence initial={false}>
-            {showNextButton && (
-              <motion.button
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
-                onClick={onNext}
-                className="pointer-events-auto relative z-40 px-8 py-3 bg-white text-pink-500 font-bold rounded-full shadow-lg hover:shadow-xl hover:bg-gray-50 transform hover:scale-105 transition-all duration-300"
-                style={{
-                  fontFamily: "'Kalam', 'Permanent Marker', 'Caveat', cursive",
-                  fontSize: '1.1rem'
-                }}
-              >
-                 →
-              </motion.button>
-            )}
-          </AnimatePresence>
         </div>
       </motion.div>
 

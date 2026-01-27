@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const Page3 = ({ onNext }) => {
   const [showPhotos, setShowPhotos] = useState(false)
   const [flowers, setFlowers] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [dragStart, setDragStart] = useState(0)
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
   const [fullscreenImage, setFullscreenImage] = useState(null)
 
   useEffect(() => {
@@ -48,15 +49,21 @@ const Page3 = ({ onNext }) => {
   )
 
   const handleDragStart = (e) => {
-    setDragStart(e.clientX || (e.touches && e.touches[0].clientX))
+    setIsDragging(true)
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX)
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY)
+    setDragStart({ x: clientX, y: clientY })
   }
 
   const handleDragEnd = (e) => {
-    const dragEnd = e.clientX || (e.changedTouches && e.changedTouches[0].clientX)
-    const diff = dragStart - dragEnd
+    if (!isDragging) return
+    setIsDragging(false)
     
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) {
+    const clientX = e.clientX || (e.changedTouches && e.changedTouches[0].clientX)
+    const diffX = dragStart.x - clientX
+
+    if (Math.abs(diffX) > 50) {
+      if (diffX > 0) {
         // Swiped left - go next
         setCurrentIndex((prev) => (prev + 1) % images.length)
       } else {
@@ -66,30 +73,21 @@ const Page3 = ({ onNext }) => {
     }
   }
 
-  const getImagePosition = (index) => {
-    const position = (index - currentIndex + images.length) % images.length
-    return position
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length)
   }
 
-  const getRotation = (position) => {
-    if (position === 0) return 0
-    if (position === 1) return 120
-    if (position === 2) return 240
-    return 0
+  const goToPrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
   }
 
-  const getZIndex = (position) => {
-    if (position === 0) return 30
-    if (position === 1) return 20
-    if (position === 2) return 10
-    return 0
-  }
-
-  const getOpacity = (position) => {
-    if (position === 0) return 1
-    if (position === 1) return 0.7
-    if (position === 2) return 0.5
-    return 0
+  const getVisibleImages = () => {
+    const visible = []
+    for (let i = -1; i <= 1; i++) {
+      const index = (currentIndex + i + images.length) % images.length
+      visible.push({ src: images[index], position: i, index })
+    }
+    return visible
   }
 
   return (
@@ -122,307 +120,182 @@ const Page3 = ({ onNext }) => {
         ))}
       </div>
 
-      {/* Main carousel container */}
-      <div className="relative z-20 w-full max-w-full px-4 py-8">
+      {/* Main content */}
+      <div className="relative z-20 w-full max-w-6xl px-4 py-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={showPhotos ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.6 }}
           className="flex flex-col items-center justify-center"
         >
-          {/* Message text at top */}
+          {/* Header text */}
           <motion.div
-            className="text-center mb-8 z-10"
+            className="text-center mb-6 sm:mb-8 z-10"
             initial={{ opacity: 0, y: -20 }}
             animate={showPhotos ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 mb-2 font-caveat">
-              უყურე უკვე სად მოვედიkönig!!!!
+              მიყვარს ეს ყოველივეეე!!!!
             </h2>
             <p className="text-lg sm:text-xl md:text-2xl text-rose-600 font-caveat">
-              ყვველაზე მეტად თaaaaan!!!!!!!!!!!
+              ყვველაზე მეტად თააან!!!!!!!!!!!
             </p>
           </motion.div>
 
-          {/* Carousel */}
-          <div
-            className="relative w-full flex items-center justify-center h-64 sm:h-72 md:h-96 lg:h-[500px] mb-8"
-            onMouseDown={handleDragStart}
-            onMouseUp={handleDragEnd}
-            onTouchStart={handleDragStart}
-            onTouchEnd={handleDragEnd}
-          >
-            {/* Container for carousel images */}
-            <div className="relative w-full h-full flex items-center justify-center">
-              {images.map((img, idx) => {
-                const position = getImagePosition(idx)
-                const zIndex = getZIndex(position)
-                const opacity = getOpacity(position)
+          {/* Carousel container */}
+          <div className="relative w-full mb-6 sm:mb-8">
+            <div
+              className="relative w-full h-[300px] sm:h-[350px] md:h-[450px] lg:h-[500px] flex items-center justify-center overflow-hidden"
+              onMouseDown={handleDragStart}
+              onMouseUp={handleDragEnd}
+              onMouseLeave={() => setIsDragging(false)}
+              onTouchStart={handleDragStart}
+              onTouchEnd={handleDragEnd}
+            >
+              <AnimatePresence mode="popLayout">
+                {getVisibleImages().map(({ src, position, index }) => {
+                  const isCenter = position === 0
+                  const isLeft = position === -1
+                  const isRight = position === 1
 
-                if (position > 2) return null
-
-                const xOffset =
-                  position === 0 ? 0 : position === 1 ? 140 : -140
-                const yOffset =
-                  position === 0 ? 0 : position === 1 ? 80 : 80
-
-                return (
-                  <motion.div
-                    key={idx}
-                    className="absolute cursor-grab active:cursor-grabbing"
-                    animate={{
-                      x: xOffset,
-                      y: yOffset,
-                    }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 300,
-                      damping: 30,
-                    }}
-                    style={{
-                      zIndex: zIndex,
-                      opacity: opacity,
-                    }}
-                  >
-                    <motion.img
-                      src={img}
-                      alt={`memory-${idx}`}
-                      className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-2xl object-cover shadow-2xl border-4 border-white cursor-pointer hover:shadow-3xl transition-shadow"
-                      onClick={() => setFullscreenImage(img)}
-                      animate={{
-                        scale: position === 0 ? 1 : 0.85,
+                  return (
+                    <motion.div
+                      key={index}
+                      className="absolute"
+                      initial={{
+                        x: position * 120,
+                        scale: isCenter ? 1 : 0.75,
+                        opacity: isCenter ? 1 : 0.4,
+                        zIndex: isCenter ? 30 : 10,
                       }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.div>
-                )
-              })}
+                      animate={{
+                        x: position === 0 ? 0 : position === 1 ? '120%' : '-120%',
+                        scale: isCenter ? 1 : 0.75,
+                        opacity: isCenter ? 1 : 0.4,
+                        zIndex: isCenter ? 30 : 10,
+                      }}
+                      exit={{
+                        opacity: 0,
+                        scale: 0.5,
+                      }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 300,
+                        damping: 30,
+                      }}
+                      style={{
+                        pointerEvents: isCenter ? 'auto' : 'none',
+                      }}
+                    >
+                      <motion.img
+                        src={src}
+                        alt={`memory-${index}`}
+                        className="w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] md:w-[320px] md:h-[320px] lg:w-[380px] lg:h-[380px] rounded-2xl object-cover shadow-2xl border-4 border-white cursor-pointer select-none"
+                        onClick={() => isCenter && !isDragging && setFullscreenImage(src)}
+                        whileHover={isCenter ? { scale: 1.02 } : {}}
+                        draggable={false}
+                      />
+                    </motion.div>
+                  )
+                })}
+              </AnimatePresence>
+
+              {/* Navigation arrows - hidden on small screens */}
+              <button
+                onClick={goToPrev}
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-40 bg-white/80 hover:bg-white text-rose-500 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg transition-all hover:scale-110 hidden sm:flex"
+              >
+                ❮
+              </button>
+              <button
+                onClick={goToNext}
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-40 bg-white/80 hover:bg-white text-rose-500 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg transition-all hover:scale-110 hidden sm:flex"
+              >
+                ❯
+              </button>
             </div>
           </div>
 
           {/* Dots indicator */}
           <motion.div
-            className="flex gap-2 justify-center mb-8 z-10"
+            className="flex gap-2 justify-center mb-6 sm:mb-8 z-10 flex-wrap max-w-xs"
             initial={{ opacity: 0 }}
             animate={showPhotos ? { opacity: 1 } : {}}
             transition={{ delay: 0.4 }}
           >
             {images.map((_, idx) => (
-              <motion.div
+              <motion.button
                 key={idx}
-                className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all cursor-pointer ${
+                className={`h-2 sm:h-3 rounded-full transition-all ${
                   idx === currentIndex
                     ? 'bg-rose-500 w-6 sm:w-8'
-                    : 'bg-pink-300 hover:bg-pink-400'
+                    : 'bg-pink-300 hover:bg-pink-400 w-2 sm:w-3'
                 }`}
-                onClick={() => {
-                  const diff = idx - currentIndex
-                  setCurrentIndex(
-                    (prev) => (prev + diff + images.length) % images.length
-                  )
-                }}
+                onClick={() => setCurrentIndex(idx)}
                 whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
               />
             ))}
           </motion.div>
 
           {/* Swipe hint */}
           <motion.p
-            className="text-sm text-gray-600 mb-6 z-10"
+            className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6 z-10 text-center px-4"
             initial={{ opacity: 0 }}
             animate={showPhotos ? { opacity: 1 } : {}}
             transition={{ delay: 0.5 }}
           >
-            💕 Swipe to see more memories 💕
           </motion.p>
 
-          {/* Navigation button */}
+          {/* Next button */}
           <motion.button
             onClick={onNext}
-            className="px-8 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all z-10"
+            className="px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all z-10 text-sm sm:text-base"
             initial={{ opacity: 0, y: 20 }}
             animate={showPhotos ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.6 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Next 💕
+            next knig
           </motion.button>
         </motion.div>
       </div>
 
       {/* Fullscreen image viewer */}
-      {fullscreenImage && (
-        <motion.div
-          className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4"
-          onClick={() => setFullscreenImage(null)}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
+      <AnimatePresence>
+        {fullscreenImage && (
           <motion.div
-            className="relative max-w-4xl w-full h-[80vh] rounded-xl overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-          >
-            <img
-              src={fullscreenImage}
-              alt="fullscreen"
-              className="w-full h-full object-contain"
-            />
-            <button
-              onClick={() => setFullscreenImage(null)}
-              className="absolute top-4 right-4 bg-white text-black rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold hover:bg-gray-200 transition-colors"
-            >
-              ✕
-            </button>
-          </motion.div>
-        </motion.div>
-      )}
-    </div>
-  )
-}
-
-export default Page3
-        <div
-          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
-          onClick={() => setFullscreenImage(null)}
-        >
-          <button
+            className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4"
             onClick={() => setFullscreenImage(null)}
-            className="absolute top-4 right-4 w-12 h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-2xl font-bold transition-all"
-            aria-label="Close fullscreen"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            ×
-          </button>
-          <img
-            src={fullscreenImage}
-            alt="Fullscreen view"
-            className="max-w-full max-h-full object-contain rounded-lg"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
-
-      <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
-        {flowers.map((flower) => (
-          <div
-            key={flower.id}
-            className="absolute"
-            style={{
-              left: `${flower.left}%`,
-              top: `${flower.top}%`,
-              width: `${flower.size}px`,
-              height: `${flower.size}px`,
-              transform: `rotate(${flower.rotation}deg)`,
-              opacity: flower.opacity,
-            }}
-          >
-            <img
-              src={flower.image}
-              alt=""
-              className="w-full h-full object-contain drop-shadow-md"
-            />
-          </div>
-        ))}
-      </div>
-
-      <div className="relative z-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-8 sm:mb-12"
-        >
-          <div
-            className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 leading-relaxed px-2"
-            style={{ fontFamily: "'Kalam', 'Permanent Marker', 'Caveat', cursive" }}
-          >
-            უყურე უკვე სად მოვედიიიიითთ!!!!!
-          </div>
-        </motion.div>
-
-        <div className="space-y-6 sm:space-y-8">
-          {showPhotos &&
-            images.map((src, idx) => (
-              <React.Fragment key={src}>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.97, y: 18 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.25 }}
-                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className="w-full cursor-pointer"
-                  onClick={() => setFullscreenImage(src)}
-                >
-                  <div className="w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl bg-white/60 backdrop-blur-sm">
-                    <img
-                      src={src}
-                      alt={`Memory ${idx + 1}`}
-                      className="w-full h-64 sm:h-80 md:h-96 object-cover block"
-                      loading="lazy"
-                    />
-                  </div>
-                </motion.div>
-
-                {moments[idx] && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.8 }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                    className="text-center px-4 relative py-2"
-                  >
-                    <div
-                      className="text-base sm:text-lg md:text-xl text-gray-700 italic"
-                      style={{ fontFamily: "'Kalam', 'Permanent Marker', 'Caveat', cursive" }}
-                    >
-                      {moments[idx]}
-                    </div>
-                  </motion.div>
-                )}
-              </React.Fragment>
-            ))}
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mt-12 sm:mt-16 px-4"
-        >
-          <div
-            className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed"
-            style={{ fontFamily: "'Kalam', 'Permanent Marker', 'Caveat', cursive" }}
-          >
-            ყვველაზე მეტად თაააააან!!!!!!!!!!!
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mt-8"
-        >
-          <motion.button
-            onClick={onNext}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-3 bg-white text-pink-500 font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-            style={{
-              fontFamily: "'Kalam', 'Permanent Marker', 'Caveat', cursive",
-              fontSize: '1.1rem'
-            }}
-          >
-             →
-          </motion.button>
-        </motion.div>
-
-        <div className="h-20" />
-      </div>
+            <motion.div
+              className="relative max-w-4xl w-full h-[80vh] rounded-xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25 }}
+            >
+              <img
+                src={fullscreenImage}
+                alt="fullscreen"
+                className="w-full h-full object-contain"
+              />
+              <button
+                onClick={() => setFullscreenImage(null)}
+                className="absolute top-4 right-4 bg-white text-black rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold hover:bg-gray-200 transition-colors"
+              >
+                ✕
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
