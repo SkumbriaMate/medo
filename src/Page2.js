@@ -241,14 +241,15 @@ const Page2 = ({ onNext }) => {
   }, [edgeStarts, flowerSources, showFlowers, viewport.h, viewport.w]);
 
   return (
-    <div className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100">
+    <div className="relative w-full min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100 overflow-hidden">
+      <div className="relative min-h-screen w-full overflow-y-auto">
       {/* Main content container - fully responsive */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12 pb-16 sm:pb-12"
-        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 24px)' }}
+        className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12 pb-24 sm:pb-12"
+        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 48px)' }}
       >
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-8 md:p-12 border border-pink-100">
           <motion.div
@@ -273,7 +274,7 @@ const Page2 = ({ onNext }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="mt-6 sm:mt-8 flex justify-center relative z-[100]"
+              className="mt-6 sm:mt-8 flex justify-center relative z-[100] pb-8"
             >
               <motion.button
                 onClick={onNext}
@@ -288,6 +289,7 @@ const Page2 = ({ onNext }) => {
           )}
         </div>
       </motion.div>
+      </div>
 
       {/* Flowers animation - COVERS EVERYTHING with high z-index */}
       {showFlowers && (
