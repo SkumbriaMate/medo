@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const Flower = ({
@@ -104,26 +104,7 @@ const Page2 = ({ onNext }) => {
 (ყველა ყვავილი შენია 🌸😁)
 `;
 
-  useEffect(() => {
-    const set = () => setViewport({ w: window.innerWidth, h: window.innerHeight });
-    set();
-    window.addEventListener('resize', set);
-
-    // Start typing animation immediately when page loads
-    const t = window.setTimeout(() => {
-      startTyping();
-    }, 100);
-    timersRef.current.push(t);
-
-    return () => {
-      window.removeEventListener('resize', set);
-      if (typingIntervalRef.current) window.clearInterval(typingIntervalRef.current);
-      timersRef.current.forEach((id) => window.clearTimeout(id));
-      timersRef.current = [];
-    };
-  }, []);
-
-  const startTyping = () => {
+  const startTyping = useCallback(() => {
     let currentIndex = 0;
     typingIntervalRef.current = window.setInterval(() => {
       if (currentIndex < englishText.length) {
@@ -150,7 +131,26 @@ const Page2 = ({ onNext }) => {
         timersRef.current.push(t1);
       }
     }, 50); // Typing speed
-  };
+  }, [englishText]);
+
+  useEffect(() => {
+    const set = () => setViewport({ w: window.innerWidth, h: window.innerHeight });
+    set();
+    window.addEventListener('resize', set);
+
+    // Start typing animation immediately when page loads
+    const t = window.setTimeout(() => {
+      startTyping();
+    }, 100);
+    timersRef.current.push(t);
+
+    return () => {
+      window.removeEventListener('resize', set);
+      if (typingIntervalRef.current) window.clearInterval(typingIntervalRef.current);
+      timersRef.current.forEach((id) => window.clearTimeout(id));
+      timersRef.current = [];
+    };
+  }, [startTyping]);
 
   const flowerSources = useMemo(
     () => [
