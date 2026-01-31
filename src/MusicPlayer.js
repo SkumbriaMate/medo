@@ -3,6 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
+    const newMusic = [
+      "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/Radiohead%20-%20Let%20Down.mp3",
+      "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/Forever.mp3"
+    ];
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0); // Start with first Mac DeMarco song
@@ -25,6 +29,9 @@ const MusicPlayer = () => {
     { name: "No Surprises", artist: "Radiohead", src: "/music/Radiohead - No Surprises - Radiohead.mp3", cover: "/music-images/no sup[rises.jpg" },
     { name: "Please, Please, Please Let Me Get What I Want", artist: "The Smiths", src: "/music/The Smiths - Please, Please, Please Let Me Get What I Want - The Smiths.mp3", cover: "/music-images/please please let me.jpg" },
     { name: "There Is A Light That Never Goes Out", artist: "The Smiths", src: "/music/The Smiths - There Is A Light That Never Goes Out (Official Audio) - The Smiths.mp3", cover: "/music-images/there is a lite that never goes.jpg" },
+
+    // Added tracks
+   
   ];
 
   const currentTrack = playlist[currentTrackIndex];

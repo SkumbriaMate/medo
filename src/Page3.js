@@ -35,6 +35,15 @@ const Page3 = ({ onNext }) => {
 
   const images = useMemo(
     () => [
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/178ad021-9848-4178-8bd6-78b4b4a2ad2d.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/1b089b47-1dfc-4fd8-9a2e-c8f51c110e2c.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/369bd509-b0ab-4a39-a53d-3484666d5aad.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/757bf1b6-d286-4fce-8212-471f033f79a8.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/9be7576f-1aa7-4c70-84d1-71667d2005b4.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/a34a3f96-a5cb-4659-a868-cc92c2ae5f9a.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/cf3df111-7637-4e8e-9561-0276cda7355f.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/d071059b-1f9b-441c-adbd-3614b27816f8.jpg',
+      'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/ffed03c9-945e-4ae0-a5d7-2789c05eb33e.jpg',
       'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/WhatsApp%20Image%202026-01-30%20at%203.02.26%20PM%20(1).jpeg',
       'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/WhatsApp%20Image%202026-01-30%20at%203.02.26%20PM%20(2).jpeg',
       'https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/WhatsApp%20Image%202026-01-30%20at%203.02.26%20PM%20(3).jpeg',
@@ -137,10 +146,10 @@ const Page3 = ({ onNext }) => {
             transition={{ delay: 0.3, duration: 0.7 }}
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-rose-500 to-pink-600 mb-2 font-caveat drop-shadow-lg">
-              მიყვარს ეს ყოველივეეე!!!!
+              ესენი რომიყვარს ხოიცი 
             </h2>
             <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-rose-600 font-caveat drop-shadow-md">
-              ყვველაზე მეტად თააან!!!!!!!!!!!
+              ზოგი ვერვნახე :(
             </p>
           </motion.div>
 
