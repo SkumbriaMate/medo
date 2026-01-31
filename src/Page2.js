@@ -257,14 +257,14 @@ const Page2 = ({ onNext }) => {
   }, [edgeStarts, flowerSources, showFlowers, viewport.h, viewport.w]);
 
   return (
-    <div className="relative w-full min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100 overflow-hidden">
-      <div className="relative min-h-screen w-full overflow-y-auto">
+    <div className="relative w-full min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100 overflow-x-hidden">
+      <div className="relative min-h-screen w-full">
       {/* Main content container - fully responsive */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12 pb-24 sm:pb-12"
+        className="relative z-20 w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12 pb-24 sm:pb-12"
         style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 48px)' }}
       >
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-8 md:p-12 border border-pink-100">
@@ -316,7 +316,7 @@ const Page2 = ({ onNext }) => {
           width: '100%', 
           height: '100%', 
           pointerEvents: 'none', 
-          zIndex: 50,
+          zIndex: 10,
           overflow: 'hidden'
         }}>
           {flowers.map((flower) => (
