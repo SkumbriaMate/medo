@@ -26,10 +26,11 @@ const MusicPlayer = () => {
     { name: "Heart To Heart", artist: "Mac DeMarco", src: "/music/Heart To Heart - Mac DeMarco.mp3", cover: "/music-images/heart to heart.jpg" },
     { name: "My Kind Of Woman", artist: "Mac DeMarco", src: "/music/Mac DeMarco __ My Kind Of Woman - CapturedTracks.mp3", cover: "/music-images/my kind of women.jpg" },
     { name: "Here Comes The Sun", artist: "The Beatles", src: "/music/Here Comes The Sun (2019 Mix) - The Beatles.mp3", cover: "/music-images/here comes the sun.jpg" },
+   { name: "Let Down", artist: "Radiohead", src: "/music/Radiohead - Let Down.mp3", cover: "/music-images/let down.jpg" },
     { name: "No Surprises", artist: "Radiohead", src: "/music/Radiohead - No Surprises - Radiohead.mp3", cover: "/music-images/no sup[rises.jpg" },
     { name: "Please, Please, Please Let Me Get What I Want", artist: "The Smiths", src: "/music/The Smiths - Please, Please, Please Let Me Get What I Want - The Smiths.mp3", cover: "/music-images/please please let me.jpg" },
     { name: "There Is A Light That Never Goes Out", artist: "The Smiths", src: "/music/The Smiths - There Is A Light That Never Goes Out (Official Audio) - The Smiths.mp3", cover: "/music-images/there is a lite that never goes.jpg" },
-
+    { name: "Forever", artist: "Unknown", src: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/Forever.mp3", cover: "https://xapopyizznjubyostnxn.supabase.co/storage/v1/object/public/Medos%20webb/covers/forever.jpg" },
     // Added tracks
    
   ];
